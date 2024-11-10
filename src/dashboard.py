@@ -25,12 +25,8 @@ if st.checkbox('Show Correlation Matrix'):
 
 # Prediction button
 if st.button("Predict"):
-    input_data = pd.DataFrame([[temperature, humidity, precipitation, wind_speed]],
-                              columns=["temperature", "humidity", "precipitation", "wind_speed"])
-
-    # Preprocess the input data (this depends on how your model was trained)
-    processed_data, _ = load_and_preprocess_data(df=input_data)  # Assuming the first return value is the processed data
-
+    
+    processed_data, _ = load_and_preprocess_data("data/crop-disease.csv")
     # Get the prediction from the model
     prediction = model.predict(processed_data)
 
