@@ -12,6 +12,6 @@ This project evaluates several machine learning models, including Random Forest,
 Clone the repository and install dependencies:
 ```bash
 git clone https://github.com/pallavikailas/crop-disease.git
-cd crop-disease-prediction
+cd crop-disease
 pip install -r requirements.txt
 streamlit run src/dashboard.py
