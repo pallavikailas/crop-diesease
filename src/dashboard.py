@@ -5,7 +5,7 @@ from dataloader import preprocess_data  # Import preprocess_data from dataloader
 from visualisation import plot_correlation_matrix
 
 # Load the trained ensemble model
-model = joblib.load("models/ensemble_model.pkl")  # Ensure path is correct
+model = joblib.load("ensemble_model.pkl")  # Ensure path is correct
 
 # Title and description for the app
 st.title("Crop Disease Outbreak Prediction")
