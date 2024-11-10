@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from dataloader import load_and_preprocess_data  # Import preprocess_data from dataloader.py
+from dataloader import load_and_preprocess_data  
 from visualisation import plot_correlation_matrix
 
 # Load the trained ensemble model
-model = joblib.load("ensemble_model.pkl")  # Ensure path is correct
+model = joblib.load("ensemble_model.pkl")
 
 # Title and description for the app
 st.title("Crop Disease Outbreak Prediction")
@@ -29,7 +29,7 @@ if st.button("Predict"):
                               columns=["temperature", "humidity", "precipitation", "wind_speed"])
 
     # Preprocess the input data (this depends on how your model was trained)
-    processed_data = load_and_preprocess_data(input_data)[0]  # Assuming the first return value is the processed data
+    processed_data, _ = load_and_preprocess_data(df=input_data)  # Assuming the first return value is the processed data
 
     # Get the prediction from the model
     prediction = model.predict(processed_data)
