@@ -7,8 +7,7 @@ def load_and_preprocess_data(file_path):
     
     # Initialize the LabelEncoder to convert categorical columns to numerical values
     label_encoder = LabelEncoder()
-    df['Crop Type'] = label_encoder.fit_transform(df['Crop Type'])
-    df['Season'] = label_encoder.fit_transform(df['Season'])
+    df['Crop_Type'] = label_encoder.fit_transform(df['Crop Type'])
     
     # Scale the numerical columns to standardize them
     scaler = StandardScaler()
