@@ -6,7 +6,7 @@ from visualisation import plot_correlation_matrix
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 # Load the trained model
-model = joblib.load("models/ensemble_model.pkl")
+model = joblib.load("ensemble_model.pkl")
 
 # Load the original dataset to help with LabelEncoder and StandardScaler initialization
 processed_data, _ = load_and_preprocess_data('data/crop-disease.csv')
