@@ -1,56 +1,43 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from dataloader import load_and_preprocess_data
-from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 # Load the trained model and label encoder
-model = joblib.load("ensemble_model.pkl")
-label_encoder = joblib.load("label_encoder.pkl")
+model = joblib.load("models/ensemble_model.pkl")
+label_encoder = joblib.load("models/label_encoder.pkl")
 
 # Title and description for the app
 st.title("Crop Disease Outbreak Prediction")
-st.write("Predict the likelihood and type of crop disease outbreak based on weather conditions.")
+st.write("Predict the likelihood and type of crop disease outbreak based on various environmental and crop factors.")
 
 # User inputs for prediction
+crop_type = st.selectbox("Crop Type", options=[0, 1, 2])  # Update options with actual crop type codes
+season = st.selectbox("Season", options=[0, 1, 2, 3])     # Update options with actual season codes
 temperature = st.slider("Temperature (°C)", min_value=10, max_value=40, step=1)
 humidity = st.slider("Humidity (%)", min_value=0, max_value=100, step=1)
 precipitation = st.slider("Precipitation (mm)", min_value=0, max_value=50, step=1)
+soil_moisture = st.slider("Soil Moisture (%)", min_value=0, max_value=100, step=1)
 wind_speed = st.slider("Wind Speed (km/h)", min_value=0, max_value=100, step=1)
+sunlight = st.slider("Sunlight (hours)", min_value=0, max_value=24, step=1)
 
 # Prediction button
 if st.button("Predict"):
     # Create a DataFrame for the input data based on user inputs
     input_data = pd.DataFrame({
-        'Crop Type': ['Wheat'],  # Default crop type for prediction (can be changed by user)
-        'Season': ['Summer'],  # Default season (can be changed by user)
+        'Crop Type': [crop_type],
+        'Season': [season],
         'Temperature (°C)': [temperature],
         'Humidity (%)': [humidity],
         'Precipitation (mm)': [precipitation],
-        'Soil Moisture (%)': [50],  # Assuming a mid-range value for soil moisture
+        'Soil Moisture (%)': [soil_moisture],
         'Wind Speed (km/h)': [wind_speed],
-        'Sunlight (hours)': [6]  # Assuming 6 hours of sunlight
+        'Sunlight (hours)': [sunlight]
     })
-    
-    # Preprocess the input data (same as the training data)
-    processed_data, _ = load_and_preprocess_data('/Users/admin/Documents/GitHub/crop-disease/data/crop-disease.csv')
-    
-    # Apply label encoding to categorical columns
-    input_data['Crop Type'] = label_encoder.transform(input_data['Crop Type'])
-    input_data['Season'] = label_encoder.transform(input_data['Season'])
-    
-    # Scale the numerical columns (same scaling used in the training data)
-    scaler = StandardScaler()
-    numerical_columns = ['Temperature (°C)', 'Humidity (%)', 'Precipitation (mm)', 
-                         'Soil Moisture (%)', 'Wind Speed (km/h)', 'Sunlight (hours)']
-    input_data[numerical_columns] = scaler.fit_transform(input_data[numerical_columns])
-    
-    # Get the prediction from the model
+
+    # Make prediction
     prediction = model.predict(input_data)
-    
-    # Reverse the encoding of the predicted output (disease name)
-    disease_name = label_encoder.inverse_transform([prediction[0]])[0]
-    
+    disease_name = label_encoder.inverse_transform(prediction)[0]
+
     # Display prediction result
-    st.write(f"Predicted Disease Name: {disease_name}")
-    st.write("Disease outbreak likelihood:", "High" if prediction[0] == 1 else "Low")
+    st.write("Predicted Disease Name:", disease_name)
+
