@@ -7,6 +7,10 @@ import joblib
 model = joblib.load("ensemble_model.pkl")
 label_encoder = joblib.load("label_encoder.pkl")
 
+# Define a label encoder for categorical inputs if not already fitted
+crop_type_encoder = LabelEncoder()
+crop_type_encoder.classes_ = np.array(['Rice', 'Maize', 'Wheat', 'Barley', 'Soybean'])  # Example categories
+
 # Title and description for the app
 st.title("Crop Disease Outbreak Prediction")
 st.write("Predict the likelihood and type of crop disease outbreak based on various environmental and crop factors.")
@@ -47,6 +51,9 @@ if st.button("Predict"):
         'Surrounding_Crop_Diversity': [surrounding_crop_diversity]
     })
     
+    crop_type_encoded = crop_type_encoder.transform([crop_type])[0]
+    input_data['Crop_Type'] = crop_type_encoded
+
     # Predict using the model
     prediction_encoded = model.predict(input_data)
     prediction = label_encoder.inverse_transform(prediction_encoded)
