@@ -11,8 +11,8 @@ st.title("Crop Disease Outbreak Prediction")
 st.write("Predict the likelihood and type of crop disease outbreak based on various environmental and crop factors.")
 
 # User inputs for prediction
-crop_type = st.selectbox("Crop Type", options=[0, 1, 2])  # Update options with actual crop type codes
-season = st.selectbox("Season", options=[0, 1, 2, 3])     # Update options with actual season codes
+crop_type = st.selectbox("Crop Type", options=['Wheat', 'Corn', 'Rice', 'Sorghum', 'Barley', 'Oat', 'Lentil', 'Sugarcane','Soybean', 'Sunflower', 'Cotton', 'Peanut', 'Tomato', 'Millet', 'Cassava'])  # Update options with actual crop type codes
+season = st.selectbox("Season", options=['Summer', 'Spring', 'Winter', 'Autumn'])     # Update options with actual season codes
 temperature = st.slider("Temperature (°C)", min_value=10, max_value=40, step=1)
 humidity = st.slider("Humidity (%)", min_value=0, max_value=100, step=1)
 precipitation = st.slider("Precipitation (mm)", min_value=0, max_value=50, step=1)
