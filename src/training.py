@@ -50,7 +50,7 @@ def train_ensemble_model(X, y):
     )
     
     ensemble_model.fit(X, y_encoded)
-    return ensemble_model, label_encoder  # Return the trained model and label encoder
+    return ensemble_model
 
 def save_model(model, label_encoder, model_name="ensemble_model.pkl"):
     """
