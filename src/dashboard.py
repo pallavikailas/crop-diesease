@@ -40,7 +40,7 @@ if st.button("Predict"):
 
     # Create input data as a DataFrame
     input_data = pd.DataFrame({
-        'Crop_Type': [crop_type], 
+        'Crop_Type': [crop_type_encoded], 
         'Growth_Stage': [growth_stage],
         'Temperature (°C)': [temperature],
         'Humidity (%)': [humidity],
