@@ -1,20 +1,19 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
-def load_and_preprocess_data(df=None, file_path=None):
+def load_and_preprocess_data(file_path):
     """
-    Loads data either from a CSV file or directly from a DataFrame, cleans it by handling missing values,
+    Loads data from a CSV file, cleans it by handling missing values,
     and encodes categorical columns.
     
     Args:
-    - df (pd.DataFrame): The data to be processed (optional).
-    - file_path (str): Path to the CSV file (optional).
+    - file_path (str): Path to the CSV file.
     
     Returns:
     - df (pd.DataFrame): Preprocessed DataFrame.
     - label_encoders (dict): Dictionary of LabelEncoders used for encoding categorical columns.
     """
-    
+
     df = pd.read_csv(file_path)
     df = df.dropna()
     
