@@ -17,7 +17,7 @@ def load_and_preprocess_data(file_path):
     df[numerical_columns] = scaler.fit_transform(df[numerical_columns])
     
     # Split the dataset into features (X) and the target variable (y)
-    X = df.drop(columns=["Disease_Type"])  # Features: everything except "Disease Name"
-    y = df["Disease_type"]  # Target: "Disease Name"
+    X = df.drop(columns=["Disease_Type"])  # Features
+    y = df["Disease_Type"]  # Target
     
     return X, y
