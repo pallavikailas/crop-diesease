@@ -12,7 +12,7 @@ def load_and_preprocess_data(file_path):
     # Scale the numerical columns to standardize them
     scaler = StandardScaler()
     numerical_columns = ['Temperature', 'Humidity', 'Rainfall', 
-                         'Soil Moisture', 'Wind Speed', 'Sunlight_Hours', 
+                         'Soil_Moisture', 'Wind_Speed', 'Sunlight_Hours', 
                          'Soil_pH', 'Growth_Stage', 'Surrounding_Crop_Diversity']
     df[numerical_columns] = scaler.fit_transform(df[numerical_columns])
     
