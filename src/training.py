@@ -1,5 +1,3 @@
-# training.py
-
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
