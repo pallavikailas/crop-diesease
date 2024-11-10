@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+from sklearn.preprocessing import LabelEncoder
 
 # Load the trained model and label encoder
 model = joblib.load("ensemble_model.pkl")
