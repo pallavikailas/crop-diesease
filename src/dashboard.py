@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from preprocessing import preprocess_data
+from dataloader import preprocess_data  # Import preprocess_data from dataloader.py
 from visualisation import plot_correlation_matrix
 
 # Load the trained ensemble model
