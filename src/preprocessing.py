@@ -1,13 +1,11 @@
 import pandas as pd
 
-def load_data():
-    disease_data = pd.read_csv('data/historical_disease_data.csv')
-    weather_data = pd.read_csv('data/weather_data.csv')
-    soil_data = pd.read_csv('data/soil_data.csv')
-    return disease_data, weather_data, soil_data
+def load_data(file_path):
+    data = pd.read_csv(file_path)
+    return data
 
-def preprocess_data(disease_data, weather_data, soil_data):
-    # Merge datasets based on relevant keys, e.g., date and location
-    # Clean and scale the data for modeling
-    # Return processed datasets
-    pass
+def preprocess_data(df):
+    # Preprocessing steps such as handling missing values, encoding, scaling, etc.
+    df = df.dropna()
+    # Implement more preprocessing steps as needed
+    return df
