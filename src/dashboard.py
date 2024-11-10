@@ -26,7 +26,8 @@ if st.checkbox('Show Correlation Matrix'):
 # Prediction button
 if st.button("Predict"):
     
-    processed_data, _ = load_and_preprocess_data("data/crop-disease.csv")
+    processed_data, _ = load_and_preprocess_data("/Users/admin/Documents/GitHub/crop-disease/data/crop-disease.csv")
+
     # Get the prediction from the model
     prediction = model.predict(processed_data)
 
