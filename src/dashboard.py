@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
 from dataloader import load_and_preprocess_data
-from model_training import load_model
-from feature_engineering import add_features
+from training import load_model
 
 # Load model
 model = load_model("ensemble_model.pkl")  # Ensure the path matches the saved model location
