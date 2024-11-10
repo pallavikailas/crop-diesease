@@ -15,9 +15,8 @@ st.write("Predict the likelihood and type of crop disease outbreak based on vari
 crop_type_encoder = LabelEncoder()
 season_encoder = LabelEncoder()
 
-# Fit encoders with known values (replace with actual categories from training data)
-crop_type_encoder.classes_ = ['Wheat', 'Corn', 'Rice', 'Sorghum', 'Barley', 'Oat', 'Lentil', 'Sugarcane','Soybean', 'Sunflower', 'Cotton', 'Peanut', 'Tomato', 'Millet', 'Cassava']
-season_encoder.classes_ = ['Spring', 'Summer', 'Autumn', 'Winter']
+crop_type_encoder.classes_ = np.array(['Wheat', 'Corn', 'Rice', 'Sorghum', 'Barley', 'Oat', 'Lentil', 'Sugarcane','Soybean', 'Sunflower', 'Cotton', 'Peanut', 'Tomato', 'Millet', 'Cassava'])  # Example categories
+season_encoder.classes_ = np.array(['Spring', 'Summer', 'Autumn', 'Winter'])
 
 # User inputs
 crop_type = st.selectbox("Crop Type", crop_type_encoder.classes_)
@@ -30,9 +29,9 @@ wind_speed = st.slider("Wind Speed (km/h)", min_value=0, max_value=100, step=1)
 sunlight = st.slider("Sunlight (hours)", min_value=0, max_value=24, step=1)
 
 if st.button("Predict"):
-    # Encode categorical inputs
-    crop_type_encoded = crop_type_encoder.transform([crop_type])[0]
-    season_encoded = season_encoder.transform([season])[0]
+    # Encode categorical inputs using NumPy arrays
+    crop_type_encoded = crop_type_encoder.transform(np.array([crop_type]))[0]
+    season_encoded = season_encoder.transform(np.array([season]))[0]
     
     # Create input data as a DataFrame
     input_data = pd.DataFrame({
