@@ -1,3 +1,4 @@
+from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
@@ -14,11 +15,15 @@ def train_ensemble_model(X, y):
     
     Args:
     - X (pd.DataFrame): Features.
-    - y (pd.Series): Target labels.
+    - y (pd.Series): Target labels (Disease Names).
     
     Returns:
     - model: Trained ensemble model.
     """
+    # Encode target labels to numeric values
+    label_encoder = LabelEncoder()
+    y_encoded = label_encoder.fit_transform(y)
+    
     # Define individual models
     rf = RandomForestClassifier()
     svm = SVC(probability=True)
@@ -31,11 +36,8 @@ def train_ensemble_model(X, y):
     f1_scores = {}
     
     for name, model in models.items():
-        # Perform cross-validation and compute the mean F1 score
-        f1 = cross_val_score(model, X, y, cv=5, scoring='f1_macro').mean()
+        f1 = cross_val_score(model, X, y_encoded, cv=5, scoring='f1_macro').mean()
         f1_scores[name] = f1
-        # Print F1 scores of individual models
-        print(f"F1 Score for {name}: {f1}")
     
     # Sort models by F1 score, highest first
     sorted_models = sorted(f1_scores.items(), key=lambda x: x[1], reverse=True)
@@ -47,16 +49,17 @@ def train_ensemble_model(X, y):
         weights=[f1_scores[name] for name, _ in sorted_models]
     )
     
-    ensemble_model.fit(X, y)
-    return ensemble_model
+    ensemble_model.fit(X, y_encoded)
+    return ensemble_model, label_encoder  # Return the trained model and label encoder
 
-def save_model(model, model_name="ensemble_model.pkl"):
+def save_model(model, label_encoder, model_name="ensemble_model.pkl"):
     """
-    Saves the trained model to the models directory in the GitHub repo.
+    Saves the trained model and label encoder to the models directory.
     
     Args:
     - model: The trained model to be saved.
-    - model_name (str): The name to save the model as. Defaults to 'ensemble_model.pkl'.
+    - label_encoder: The label encoder to be saved.
+    - model_name (str): The name to save the model as.
     """
     # Check if the 'models' directory exists, if not create it
     models_dir = "models"
@@ -65,6 +68,7 @@ def save_model(model, model_name="ensemble_model.pkl"):
     
     model_path = os.path.join(models_dir, model_name)
     
-    # Save the model using joblib
+    # Save the model and label encoder using joblib
     joblib.dump(model, model_path)
-    print(f"Model saved to {model_path}")
+    joblib.dump(label_encoder, os.path.join(models_dir, 'label_encoder.pkl'))
+    print(f"Model and label encoder saved to {model_path}")
