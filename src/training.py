@@ -11,7 +11,7 @@ import os
 def train_ensemble_model(X, y):
     """
     Trains an ensemble model using Voting Classifier, including additional models like Logistic Regression.
-    The voting is weighted based on F1 scores from cross-validation.
+    The voting is weighted based on accuracy scores from cross-validation.
     
     Args:
     - X (pd.DataFrame): Features.
@@ -32,22 +32,22 @@ def train_ensemble_model(X, y):
     lr = LogisticRegression()
 
     models = {'Random Forest': rf, 'SVM': svm, 'KNN': knn, 'XGBoost': xgb, 'Logistic Regression': lr}
-    f1_scores = {}
+    accuracy_scores = {}
     
     for name, model in models.items():
-        # Compute F1 score using cross-validation
-        f1 = cross_val_score(model, X, y_encoded, cv=5, scoring='f1_macro').mean()
-        f1_scores[name] = f1
-        print(f"F1 Score for {name}: {f1:.4f}")  # Output the individual F1 score
+        # Compute accuracy score using cross-validation
+        accuracy = cross_val_score(model, X, y_encoded, cv=5, scoring='accuracy').mean()
+        accuracy_scores[name] = accuracy
+        print(f"Accuracy Score for {name}: {accuracy:.4f}")  # Output the individual accuracy score
     
-    # Sort models by F1 score, highest first
-    sorted_models = sorted(f1_scores.items(), key=lambda x: x[1], reverse=True)
+    # Sort models by accuracy score, highest first
+    sorted_models = sorted(accuracy_scores.items(), key=lambda x: x[1], reverse=True)
 
-    # Create the ensemble with weighted voting based on F1 scores
+    # Create the ensemble with weighted voting based on accuracy scores
     ensemble_model = VotingClassifier(
         estimators=[(name, models[name]) for name, _ in sorted_models],
         voting='soft',
-        weights=[f1_scores[name] for name, _ in sorted_models]
+        weights=[accuracy_scores[name] for name, _ in sorted_models]
     )
     
     ensemble_model.fit(X, y_encoded)
