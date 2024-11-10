@@ -14,3 +14,8 @@ Clone the repository and install dependencies:
 git clone https://github.com/username/crop-disease-prediction.git
 cd crop-disease-prediction
 pip install -r requirements.txt
+
+## Running the Dashboard
+To start the Streamlit dashboard for interactive predictions:
+```bash
+streamlit run src/dashboard.py
