@@ -4,6 +4,8 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 def load_and_preprocess_data(file_path):
     # Load the dataset from the provided CSV file path
     df = pd.read_csv(file_path)
+    df['Disease_Type'] = df['Disease_Type'].fillna('Healthy')
+    df = df.dropna()
     
     # Initialize the LabelEncoder to convert categorical columns to numerical values
     label_encoder = LabelEncoder()
