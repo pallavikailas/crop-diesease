@@ -31,8 +31,11 @@ def train_ensemble_model(X, y):
     f1_scores = {}
     
     for name, model in models.items():
+        # Perform cross-validation and compute the mean F1 score
         f1 = cross_val_score(model, X, y, cv=5, scoring='f1_macro').mean()
         f1_scores[name] = f1
+        # Print F1 scores of individual models
+        print(f"F1 Score for {name}: {f1}")
     
     # Sort models by F1 score, highest first
     sorted_models = sorted(f1_scores.items(), key=lambda x: x[1], reverse=True)
