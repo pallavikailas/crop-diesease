@@ -31,13 +31,14 @@ def train_ensemble_model(X, y):
     xgb = XGBClassifier()
     lr = LogisticRegression()
 
-    # Train models to get their F1 scores for weighted voting
-    models = {'rf': rf, 'svm': svm, 'knn': knn, 'xgb': xgb, 'lr': lr}
+    models = {'Random Forest': rf, 'SVM': svm, 'KNN': knn, 'XGBoost': xgb, 'Logistic Regression': lr}
     f1_scores = {}
     
     for name, model in models.items():
+        # Compute F1 score using cross-validation
         f1 = cross_val_score(model, X, y_encoded, cv=5, scoring='f1_macro').mean()
         f1_scores[name] = f1
+        print(f"F1 Score for {name}: {f1:.4f}")  # Output the individual F1 score
     
     # Sort models by F1 score, highest first
     sorted_models = sorted(f1_scores.items(), key=lambda x: x[1], reverse=True)
