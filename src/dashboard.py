@@ -18,12 +18,6 @@ humidity = st.slider("Humidity (%)", min_value=0, max_value=100, step=1)
 precipitation = st.slider("Precipitation (mm)", min_value=0, max_value=50, step=1)
 wind_speed = st.slider("Wind Speed (km/h)", min_value=0, max_value=100, step=1)
 
-# Show the correlation matrix as a visualization option
-if st.checkbox('Show Correlation Matrix'):
-    data = pd.DataFrame({'Temperature (°C)': [temperature], 'Humidity (%)': [humidity],
-                         'Precipitation (mm)': [precipitation], 'Wind Speed (km/h)': [wind_speed]})
-    plot_correlation_matrix(data)
-
 # Prediction button
 if st.button("Predict"):
     # Create a DataFrame for the input data based on user inputs
@@ -39,7 +33,7 @@ if st.button("Predict"):
     })
     
     # Preprocess the input data (same as the training data)
-    processed_data, _ = load_and_preprocess_data('data/crop-disease.csv')
+    processed_data, _ = load_and_preprocess_data('/Users/admin/Documents/GitHub/crop-disease/data/crop-disease.csv')
     
     # Apply label encoding to categorical columns
     input_data['Crop Type'] = label_encoder.transform(input_data['Crop Type'])
