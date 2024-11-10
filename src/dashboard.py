@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from src.preprocessing import preprocess_data
-from src.visualisation import plot_correlation_matrix
+from preprocessing import preprocess_data
+from visualisation import plot_correlation_matrix
 
 # Load the trained ensemble model
 model = joblib.load("models/ensemble_model.pkl")  # Ensure path is correct
