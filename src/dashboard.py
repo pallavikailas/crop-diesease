@@ -1,32 +1,38 @@
 import streamlit as st
 import pandas as pd
-from dataloader import load_and_preprocess_data
-from training import load_model
+import joblib
+from src.preprocessing import preprocess_data
+from src.visualisation import plot_correlation_matrix
 
-# Load model
-model = load_model("ensemble_model.pkl")  # Ensure the path matches the saved model location
+# Load the trained ensemble model
+model = joblib.load("models/ensemble_model.pkl")  # Ensure path is correct
 
-# Title and description
+# Title and description for the app
 st.title("Crop Disease Outbreak Prediction")
 st.write("Predict the likelihood of a crop disease outbreak based on weather conditions.")
 
-# User inputs
+# User inputs for prediction
 temperature = st.slider("Temperature (°C)", min_value=10, max_value=40, step=1)
 humidity = st.slider("Humidity (%)", min_value=0, max_value=100, step=1)
 precipitation = st.slider("Precipitation (mm)", min_value=0, max_value=50, step=1)
 wind_speed = st.slider("Wind Speed (km/h)", min_value=0, max_value=100, step=1)
 
-# Predict button
+# Show the correlation matrix as a visualization option
+if st.checkbox('Show Correlation Matrix'):
+    data = pd.DataFrame({'temperature': [temperature], 'humidity': [humidity],
+                         'precipitation': [precipitation], 'wind_speed': [wind_speed]})
+    plot_correlation_matrix(data)
+
+# Prediction button
 if st.button("Predict"):
-    # Create input data for prediction
-    input_data = pd.DataFrame([[temperature, humidity, precipitation, wind_speed]], 
+    input_data = pd.DataFrame([[temperature, humidity, precipitation, wind_speed]],
                               columns=["temperature", "humidity", "precipitation", "wind_speed"])
-    
-    # Add features
-    input_data = add_features(input_data)
-    
-    # Make prediction
-    prediction = model.predict(input_data)
-    
-    # Display prediction
+
+    # Preprocess the input data (this depends on how your model was trained)
+    processed_data = preprocess_data(input_data)[0]  # Assuming the first return value is the processed data
+
+    # Get the prediction from the model
+    prediction = model.predict(processed_data)
+
+    # Display prediction result
     st.write("Disease outbreak likelihood:", "High" if prediction[0] == 1 else "Low")
