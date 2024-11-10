@@ -7,16 +7,18 @@ def load_and_preprocess_data(file_path):
     
     # Initialize the LabelEncoder to convert categorical columns to numerical values
     label_encoder = LabelEncoder()
-    df['Crop_Type'] = label_encoder.fit_transform(df['Crop Type'])
+    df['Crop_Type'] = label_encoder.fit_transform(df['Crop_Type'])
     
     # Scale the numerical columns to standardize them
     scaler = StandardScaler()
-    numerical_columns = ['Temperature (°C)', 'Humidity (%)', 'Precipitation (mm)', 
-                         'Soil Moisture (%)', 'Wind Speed (km/h)', 'Sunlight (hours)']
+    numerical_columns = ['Temperature', 'Humidity', 'Rainfall', 
+                         'Soil Moisture', 'Wind Speed', 'Sunlight_Hours', 
+                         'Soil_pH', 'Growth_Stage', 'Surrounding_Crop_Diversity', 
+                         'Disease_Presence']
     df[numerical_columns] = scaler.fit_transform(df[numerical_columns])
     
     # Split the dataset into features (X) and the target variable (y)
-    X = df.drop(columns=["Disease Name"])  # Features: everything except "Disease Name"
-    y = df["Disease Name"]  # Target: "Disease Name"
+    X = df.drop(columns=["Disease_Type"])  # Features: everything except "Disease Name"
+    y = df["Disease_type"]  # Target: "Disease Name"
     
     return X, y
