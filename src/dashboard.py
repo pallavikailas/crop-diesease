@@ -2,28 +2,11 @@ import streamlit as st
 import pandas as pd
 import joblib
 from dataloader import load_and_preprocess_data
-from visualisation import plot_correlation_matrix
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
-# Load the trained model
+# Load the trained model and label encoder
 model = joblib.load("ensemble_model.pkl")
-
-# Load the original dataset to help with LabelEncoder and StandardScaler initialization
-processed_data, _ = load_and_preprocess_data('data/crop-disease.csv')
-
-# Initialize the label encoder and scaler (using training data's fitted label encoder and scaler)
-label_encoder = LabelEncoder()
-scaler = StandardScaler()
-
-# Fit the LabelEncoder on the unique values in the training data for 'Crop Type' and 'Season'
-label_encoder.fit(processed_data['Crop Type'])
-season_encoder = LabelEncoder()
-season_encoder.fit(processed_data['Season'])
-
-# Fit the StandardScaler on the numerical columns from the training data
-numerical_columns = ['Temperature (°C)', 'Humidity (%)', 'Precipitation (mm)', 
-                     'Soil Moisture (%)', 'Wind Speed (km/h)', 'Sunlight (hours)']
-scaler.fit(processed_data[numerical_columns])
+label_encoder = joblib.load("label_encoder.pkl")
 
 # Title and description for the app
 st.title("Crop Disease Outbreak Prediction")
@@ -55,18 +38,24 @@ if st.button("Predict"):
         'Sunlight (hours)': [6]  # Assuming 6 hours of sunlight
     })
     
+    # Preprocess the input data (same as the training data)
+    processed_data, _ = load_and_preprocess_data('data/crop-disease.csv')
+    
     # Apply label encoding to categorical columns
     input_data['Crop Type'] = label_encoder.transform(input_data['Crop Type'])
-    input_data['Season'] = season_encoder.transform(input_data['Season'])
+    input_data['Season'] = label_encoder.transform(input_data['Season'])
     
     # Scale the numerical columns (same scaling used in the training data)
-    input_data[numerical_columns] = scaler.transform(input_data[numerical_columns])
+    scaler = StandardScaler()
+    numerical_columns = ['Temperature (°C)', 'Humidity (%)', 'Precipitation (mm)', 
+                         'Soil Moisture (%)', 'Wind Speed (km/h)', 'Sunlight (hours)']
+    input_data[numerical_columns] = scaler.fit_transform(input_data[numerical_columns])
     
     # Get the prediction from the model
     prediction = model.predict(input_data)
     
-    # Mapping the predicted output (Disease Name)
-    disease_name = prediction[0]  # The model predicts the index of the disease name
+    # Reverse the encoding of the predicted output (disease name)
+    disease_name = label_encoder.inverse_transform([prediction[0]])[0]
     
     # Display prediction result
     st.write(f"Predicted Disease Name: {disease_name}")
