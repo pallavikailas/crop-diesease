@@ -35,9 +35,9 @@ surrounding_crop_diversity = st.slider("Surrounding Crop Diversity", min_value=0
 
 if st.button("Predict"):
     # Encode categorical inputs using NumPy arrays
-    crop_type_encoded = crop_type_encoder.transform(np.array([crop_type]))[0]
-    season_encoded = season_encoder.transform(np.array([season]))[0]
-    
+    # crop_type_encoded = crop_type_encoder.transform(np.array([crop_type]))[0]
+    crop_type_encoded = crop_type_encoder.transform([crop_type])[0]
+
     # Create input data as a DataFrame
     input_data = pd.DataFrame({
         'Crop_Type': [crop_type], 
@@ -52,8 +52,6 @@ if st.button("Predict"):
         'Surrounding_Crop_Diversity': [surrounding_crop_diversity]
     })
     
-    crop_type_encoded = crop_type_encoder.transform([crop_type])[0]
-    input_data['Crop_Type'] = crop_type_encoded
 
     # Predict using the model
     prediction_encoded = model.predict(input_data)
