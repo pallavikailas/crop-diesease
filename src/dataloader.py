@@ -13,8 +13,7 @@ def load_and_preprocess_data(file_path):
     scaler = StandardScaler()
     numerical_columns = ['Temperature', 'Humidity', 'Rainfall', 
                          'Soil Moisture', 'Wind Speed', 'Sunlight_Hours', 
-                         'Soil_pH', 'Growth_Stage', 'Surrounding_Crop_Diversity', 
-                         'Disease_Presence']
+                         'Soil_pH', 'Growth_Stage', 'Surrounding_Crop_Diversity']
     df[numerical_columns] = scaler.fit_transform(df[numerical_columns])
     
     # Split the dataset into features (X) and the target variable (y)
