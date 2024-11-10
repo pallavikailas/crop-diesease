@@ -4,8 +4,8 @@ from sklearn.preprocessing import LabelEncoder
 import joblib
 
 # Load the trained model and label encoder
-model = joblib.load("models/ensemble_model.pkl")
-label_encoder = joblib.load("models/label_encoder.pkl")
+model = joblib.load("ensemble_model.pkl")
+label_encoder = joblib.load("label_encoder.pkl")
 
 # Title and description for the app
 st.title("Crop Disease Outbreak Prediction")
