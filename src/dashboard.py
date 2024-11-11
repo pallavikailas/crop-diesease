@@ -28,6 +28,22 @@ sunlight_hours = st.slider("Sunlight_Hours", min_value=1, max_value=15, step=1)
 soil_ph = st.slider("Soil_pH", min_value=4.7, max_value=8.2, step=0.1)
 surrounding_crop_diversity = st.slider("Surrounding_Crop_Diversity", min_value=-0.3, max_value=6.9, step=0.1)
 
+treatment_recommendations = {
+    'Root Rot': "Ensure proper drainage and avoid overwatering. Use fungicides if necessary.",
+    'Leaf Spot': "Remove infected leaves and apply fungicides. Ensure good air circulation around plants.",
+    'Fungal Wilt': "Rotate crops and use disease-resistant varieties. Apply fungicides as a preventative measure.",
+    'Stem Rot': "Improve soil drainage, avoid injuries to stems, and apply fungicides as needed.",
+    'Rust': "Use resistant plant varieties and apply fungicides. Avoid overhead irrigation.",
+    'Spot': "Prune affected areas and apply appropriate fungicides.",
+    'Bacterial Blight': "Use disease-free seeds and avoid overhead watering. Apply copper-based bactericides.",
+    'Anthracnose': "Remove infected plants and apply fungicides. Practice crop rotation.",
+    'Blight': "Remove infected plants, apply fungicides, and ensure proper spacing for air circulation.",
+    'Mildew': "Apply sulfur or potassium bicarbonate sprays. Ensure good ventilation.",
+    'Powdery Mildew': "Apply fungicides, avoid overhead watering, and ensure adequate spacing.",
+    'Downy Mildew': "Use resistant varieties, remove infected leaves, and apply fungicides as needed.",
+    'Wilt': "Improve soil drainage and consider crop rotation. Remove infected plants promptly."
+}
+
 if st.button("Predict"):
     crop_type_encoded = crop_type_encoder.transform([crop_type])[0]
 
@@ -50,3 +66,5 @@ if st.button("Predict"):
     prediction = label_encoder.inverse_transform(prediction_encoded)
 
     st.write(f"Predicted Crop Disease Outbreak: {prediction[0]}")
+    st.write("**Treatment Recommendation:**")
+    st.write(treatment_recommendations.get(prediction[0], "No specific treatment available."))
