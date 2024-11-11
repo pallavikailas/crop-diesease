@@ -20,13 +20,13 @@ st.write("Predict the likelihood and type of crop disease outbreak based on vari
 crop_type = st.selectbox("Crop_Type", ['Rice', 'Maize', 'Wheat', 'Barley', 'Soybean'])
 growth_stage = st.selectbox("Growth Stage", [1, 2, 3])
 temperature = st.slider("Temperature", min_value=10, max_value=40, step=1)
-humidity = st.slider("Humidity", min_value=0, max_value=100, step=1)
-rainfall = st.slider("Rainfall", min_value=0, max_value=200, step=1)
-soil_moisture = st.slider("Soil Moisture", min_value=0, max_value=100, step=1)
-wind_speed = st.slider("Wind_Speed", min_value=0, max_value=100, step=1)
-sunlight_hours = st.slider("Sunlight_Hours", min_value=0, max_value=24, step=1)
-soil_ph = st.slider("Soil_pH", min_value=5.0, max_value=8.0, step=0.1)
-surrounding_crop_diversity = st.slider("Surrounding_Crop_Diversity", min_value=0.0, max_value=5.0, step=0.1)
+humidity = st.slider("Humidity", min_value=0, max_value=110, step=1)
+rainfall = st.slider("Rainfall", min_value=-50, max_value=250, step=1)
+soil_moisture = st.slider("Soil Moisture", min_value=5, max_value=57, step=1)
+wind_speed = st.slider("Wind_Speed", min_value=-1, max_value=11, step=1)
+sunlight_hours = st.slider("Sunlight_Hours", min_value=1, max_value=15, step=1)
+soil_ph = st.slider("Soil_pH", min_value=4.7, max_value=8.2, step=0.1)
+surrounding_crop_diversity = st.slider("Surrounding_Crop_Diversity", min_value=-0.3, max_value=6.9, step=0.1)
 
 if st.button("Predict"):
     crop_type_encoded = crop_type_encoder.transform([crop_type])[0]
